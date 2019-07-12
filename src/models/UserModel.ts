@@ -1,6 +1,5 @@
 import * as Sequelize from "sequelize";
 import { BaseModelInterface } from "../interfaces/BaseInterface";
-import sequelize = require("sequelize");
 import { genSaltSync, hashSync, compareSync } from "bcryptjs";
 
 export interface UserAttributes {
@@ -21,7 +20,7 @@ export interface UserModel extends BaseModelInterface, Sequelize.Model<UserInsta
 
 }
 
-export default (sequelize: Sequelize.Sequelize, DataTypes: sequelize.DataTypes): UserModel => {
+export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes): UserModel => {
   const User: UserModel = sequelize.define("User", {
     id: {
       type: DataTypes.INTEGER,
@@ -59,8 +58,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: sequelize.DataTypes):
         const salt = genSaltSync();
         user.password = hashSync(user.password, salt);
       } 
-    },
-    timestamps: true
+    }
   });
 
   User.prototype.isPassword = (encodedPassword: string, password: string): boolean => {
