@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node_modules/.bin/nodemon --delay 5 dist/index",
+    "dev": "node_modules/.bin/nodemon -r dotenv/config --delay 5 dist/index",
     "gulp": "node_modules/.bin/gulp"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "@types/lodash": "4.14.95",
     "@types/node": "12.6.1",
     "@types/sequelize": "4.0.76",
+    "dotenv": "^8.0.0",
     "gulp": "3.9.1",
     "gulp-clean": "0.3.2",
     "gulp-typescript": "3.2.2",
