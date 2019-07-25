@@ -4,11 +4,11 @@ const tokenTypes = `
   }
 `;
 
-const tokeMutations = `
+const tokenMutations = `
   createToken(email: String!, password: String!): Token
 `;
 
 export {
   tokenTypes,
-  tokeMutations
+  tokenMutations
 }
