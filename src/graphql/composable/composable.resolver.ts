@@ -1,6 +1,6 @@
 /**
  * Código original https://github.com/scaphold-io/graphql-extended/blob/master/src/resolvers/CompositeResolver.ts
- * 
+ *
  */
 import { GraphQLFieldResolver } from "graphql";
 
