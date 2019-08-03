@@ -29,7 +29,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "query {\n\tusers(first: 15, offset: 1) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t\tposts {\n\t\t\tid\n\t\t\ttitle\n\t\t}\n\t}\n}"
+									"raw": "query {\n\tusers(first: 15, offset: 0) {\n\t\tid\n\t\tname\n\t\temail\n\t\tcreatedAt\n\t\tposts {\n\t\t\tid\n\t\t\ttitle\n\t\t}\n\t}\n}"
 								},
 								"description": ""
 							},
@@ -39,7 +39,7 @@
 							"name": "Query: users",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 1}",
+									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 0}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -51,7 +51,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"first\": 15, \"offset\": 1}",
+											"value": "{\"first\": 15, \"offset\": 0}",
 											"equals": true,
 											"description": ""
 										}
@@ -156,7 +156,7 @@
 							"name": "Mutation: updateUser",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"userUpdateInput\": {\"name\": \"Daenerys\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
+									"raw": "http://localhost:3000/graphql?variables={\"userUpdateInput\": {\"name\": \"Daenerys Targaryen\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -168,7 +168,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"id\": 1, \"userUpdateInput\": {\"name\": \"Daenerys\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
+											"value": "{\"userUpdateInput\": {\"name\": \"Daenerys Targaryen\", \"email\": \"dany@email.com\", \"photo\": \"some_photo\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -181,11 +181,17 @@
 										"key": "Content-Type",
 										"value": "application/graphql",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTUwOTk5NjYzMH0.c5zJ6OubzY22SpNhQ9bK_xnep10T0jqYWcd7HD6HGN0",
+										"description": "",
+										"disabled": true
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "mutation updateExistingUser($id: ID!, $userUpdateInput: UserUpdateInput!) {\n\tupdateUser(id: $id, input: $userUpdateInput) {\n\t\tid\n\t\tname\n\t\temail\n\t\tphoto\n\t\tcreatedAt\n\t\tupdatedAt\n\t}\n}"
+									"raw": "mutation updateExistingUser($userUpdateInput: UserUpdateInput!) {\n\tupdateUser(input: $userUpdateInput) {\n\t\tid\n\t\tname\n\t\temail\n\t\tphoto\n\t\tcreatedAt\n\t\tupdatedAt\n\t}\n}"
 								},
 								"description": ""
 							},
@@ -195,7 +201,7 @@
 							"name": "Mutation: updateUserPassword",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
+									"raw": "http://localhost:3000/graphql?variables={\"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -207,7 +213,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"id\": 1, \"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
+											"value": "{\"userUpdatePasswordInput\": {\"password\": \"123456\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -224,7 +230,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "mutation updateExistingUserPassword($id: ID!, $userUpdatePasswordInput: UserUpdatePasswordInput!) {\n\tupdateUserPassword(id: $id, input: $userUpdatePasswordInput)\n}"
+									"raw": "mutation updateExistingUserPassword($userUpdatePasswordInput: UserUpdatePasswordInput!) {\n\tupdateUserPassword(input: $userUpdatePasswordInput)\n}"
 								},
 								"description": ""
 							},
@@ -263,7 +269,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "mutation deleteExistingUser($id: ID!) {\n\tdeleteUser(id: $id)\n}"
+									"raw": "mutation deleteExistingUser {\n\tdeleteUser\n}"
 								},
 								"description": ""
 							},
@@ -280,7 +286,7 @@
 							"name": "Query: posts",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 1}",
+									"raw": "http://localhost:3000/graphql?variables={\"first\": 15, \"offset\": 0}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -292,7 +298,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"first\": 15, \"offset\": 1}",
+											"value": "{\"first\": 15, \"offset\": 0}",
 											"equals": true,
 											"description": ""
 										}
@@ -309,7 +315,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "query getPostsList($first: Int, $offset: Int) {\n\tposts(first: $first, offset: $offset) {\n\t\tid\n\t\ttitle\n\t\tcontent\n\t\tauthor {\n\t\t\tname\n\t\t\temail\n\t\t}\n\t\tcomments {\n\t\t\tcomment\n\t\t}\n\t}\n}"
+									"raw": "query getPostsList($first: Int, $offset: Int) {\n  posts(first: $first, offset: $offset) {\n    id\n    title\n    content\n    author {\n      name\n      email\n    }\n    comments {\n      comment\n    }\n  }\n}"
 								},
 								"description": ""
 							},
@@ -358,7 +364,7 @@
 							"name": "Mutation: createPost",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\", \"author\": 1}}",
+									"raw": "http://localhost:3000/graphql?variables={\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -370,7 +376,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\", \"author\": 1}}",
+											"value": "{\"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -383,6 +389,12 @@
 										"key": "Content-Type",
 										"value": "application/graphql",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -397,7 +409,7 @@
 							"name": "Mutation: updatePost",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\", \"author\": 1}}",
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"postInput\": {\"title\": \"My changed post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -409,7 +421,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"id\": 1, \"postInput\": {\"title\": \"My new post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\", \"author\": 1}}",
+											"value": "{\"id\": 1, \"postInput\": {\"title\": \"My changed post\", \"content\": \"Lorem ipsum dolor\", \"photo\": \"some_photo\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -421,6 +433,11 @@
 									{
 										"key": "Content-Type",
 										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
 										"description": ""
 									}
 								],
@@ -461,6 +478,12 @@
 										"key": "Content-Type",
 										"value": "application/graphql",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -482,7 +505,7 @@
 							"name": "Query: commentsByPost",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"postId\": 1, \"first\": 15, \"offset\": 1}",
+									"raw": "http://localhost:3000/graphql?variables={\"postId\": 1, \"first\": 15, \"offset\": 0}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -494,7 +517,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"postId\": 1, \"first\": 15, \"offset\": 1}",
+											"value": "{\"postId\": 1, \"first\": 15, \"offset\": 0}",
 											"equals": true,
 											"description": ""
 										}
@@ -521,7 +544,7 @@
 							"name": "Mutation: createComment",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"commentInput\": {\"comment\": \"My first comment\", \"user\": \"1\", \"post\": \"1\"}}",
+									"raw": "http://localhost:3000/graphql?variables={\"commentInput\": {\"comment\": \"My first comment\", \"post\": \"1\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -533,7 +556,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"commentInput\": {\"comment\": \"My first comment\", \"user\": \"1\", \"post\": \"1\"}}",
+											"value": "{\"commentInput\": {\"comment\": \"My first comment\", \"post\": \"1\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -546,6 +569,12 @@
 										"key": "Content-Type",
 										"value": "application/graphql",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
+										"description": "",
+										"disabled": true
 									}
 								],
 								"body": {
@@ -560,7 +589,7 @@
 							"name": "Mutation: updateComment",
 							"request": {
 								"url": {
-									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"user\": \"1\", \"post\": \"1\"}}",
+									"raw": "http://localhost:3000/graphql?variables={\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"post\": \"1\"}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -572,7 +601,7 @@
 									"query": [
 										{
 											"key": "variables",
-											"value": "{\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"user\": \"1\", \"post\": \"1\"}}",
+											"value": "{\"id\": 1, \"commentInput\": {\"comment\": \"Comment changed\", \"post\": \"1\"}}",
 											"equals": true,
 											"description": ""
 										}
@@ -584,6 +613,11 @@
 									{
 										"key": "Content-Type",
 										"value": "application/graphql",
+										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjMsImlhdCI6MTUwOTk5NDQ5M30.LwnmYrf7ppPRTV3-rQfby2gGNt_9PXlLNa8dx2YZDFY",
 										"description": ""
 									}
 								],
@@ -624,11 +658,62 @@
 										"key": "Content-Type",
 										"value": "application/graphql",
 										"description": ""
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer fdgdfg",
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
 									"raw": "mutation deleteExistingComment($id: ID!) {\n\tdeleteComment(id: $id)\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Token",
+					"description": "",
+					"item": [
+						{
+							"name": "Mutation: createToken",
+							"request": {
+								"url": {
+									"raw": "http://localhost:3000/graphql?variables={\"email\": \"dany@email.com\", \"password\": \"1234\"}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"graphql"
+									],
+									"query": [
+										{
+											"key": "variables",
+											"value": "{\"email\": \"dany@email.com\", \"password\": \"1234\"}",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/graphql",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "mutation createNewToken($email: String!, $password: String!) {\n\tcreateToken(email: $email, password: $password) {\n\t\ttoken\n\t}\n}"
 								},
 								"description": ""
 							},
@@ -661,7 +746,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"query\": \"\\nquery getUsersList($first: Int, $offset: Int){\\nusers(first: $first, offset: $offset) {\\n name\\n email\\n createdAt\\n }\\n }\\n\",\n\t\"variables\": {\n\t\t\"first\": 20,\n\t\t\"offset\": 0\n\t}\n}"
+									"raw": "{\n  \"query\": \"\\nquery getUsersList($first: Int, $offset: Int){\\nusers(first: $first, offset: $offset) {\\n name\\n email\\n createdAt\\n }\\n }\\n\",\n  \"variables\": {\n    \"first\": 20,\n    \"offset\": 0\n  }\n}"
 								},
 								"description": ""
 							},
