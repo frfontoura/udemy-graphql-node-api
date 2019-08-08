@@ -30,7 +30,7 @@ export const userResolvers = {
         .findAll({
           limit: first,
           offset: offset,
-          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['comments']})
+          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts']})
         })
         .catch(handleError);
     },
@@ -39,7 +39,7 @@ export const userResolvers = {
       id = parseInt(id);
       return context.db.User
         .findById(id, {
-          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['comments']})
+          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts']})
         })
         .then((user: UserInstance) => {
           throwError(!user, `User with authUser.id ${id} not found!`);
@@ -51,7 +51,7 @@ export const userResolvers = {
     currentUser: compose(...authResolvers)((parent, args, context: ResolverContext, info: GraphQLResolveInfo) => {
       return context.db.User
         .findById(context.authUser.id, {
-          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['comments']})
+          attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts']})
         })
         .then((user: UserInstance) => {
           throwError(!user, `User with authUser.id ${context.authUser.id} not found!`);
