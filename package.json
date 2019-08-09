@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node_modules/.bin/nodemon -r dotenv/config --delay 5 dist/index",
-    "gulp": "node_modules/.bin/gulp"
+    "gulp": "node_modules/.bin/gulp",
+    "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha"
   },
   "keywords": [],
   "author": "",
