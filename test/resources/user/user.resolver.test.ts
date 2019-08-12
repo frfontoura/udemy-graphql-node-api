@@ -1,8 +1,12 @@
+import * as jwt from 'jsonwebtoken';
 import { db, chai, handleError, app, expect } from './../../test-utils';
+
 import { UserInstance } from '../../../src/models/UserModel';
+import { JWT_SECRET } from '../../../src/utils/utils';
 
 describe('User', () => {
 
+  let token: string;
   let userId: number;
 
   beforeEach(() => {
@@ -28,6 +32,8 @@ describe('User', () => {
     ]
     )).then((users: UserInstance[]) =>{
       userId = users[0].get('id');
+      const payload = { sub: userId }
+      token = jwt.sign(payload, JWT_SECRET);
     });
   });
   
@@ -191,4 +197,91 @@ describe('User', () => {
 
     });
   });
+
+  describe('Mutations', () => {
+
+    describe('application/json', () => {
+
+      describe('createUser', () => {
+        
+        it('shoud create new User', () => {
+          let body = {
+            query: `
+              mutation createNewUser($input: UserCreateInput!) {
+                createUser(input: $input) {
+                  id
+                  name
+                  email
+                }
+              }
+            `,
+            variables: {
+              input: {
+                name: 'Drax',
+                email: 'drax@guardians.com',
+                password: '123'
+              }
+            }
+          };
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type',  'application/json')
+            .send(JSON.stringify(body))
+            .then(res => {
+              const createdUser = res.body.data.createUser;
+              expect(createdUser).to.be.an('object');
+              expect(createdUser.name).to.equal('Drax');
+              expect(createdUser.email).to.equal('drax@guardians.com');
+              expect(parseInt(createdUser.id)).to.be.a('number');
+            }).catch(handleError);
+
+        });
+
+      });
+
+      describe('updateUser', () => {
+        
+        it('shoud update an existing User', () => {
+          let body = {
+            query: `
+              mutation updateExistingUser($input: UserUpdateInput!) {
+                updateUser(input: $input) {
+                  name
+                  email
+                  photo
+                }
+              }
+            `,
+            variables: {
+              input: {
+                name: 'Star Lord',
+                email: 'peter@guardians.com',
+                photo: 'some base 64'
+              }
+            }
+          };
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type',  'application/json')
+            .set('Authorization', `Bearer ${token}`)
+            .send(JSON.stringify(body))
+            .then(res => {
+              const updatedUser = res.body.data.updateUser;
+              expect(updatedUser).to.be.an('object');
+              expect(updatedUser.name).to.equal('Star Lord');
+              expect(updatedUser.email).to.equal('peter@guardians.com');
+              expect(updatedUser.photo).to.not.be.null;
+              expect(updatedUser.id).to.be.undefined;
+            }).catch(handleError);
+
+        });
+
+      });
+
+    });
+
+  });
+
 });
