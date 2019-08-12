@@ -40,7 +40,7 @@ export const onListening = (server: Server) => {
 
 export const handleError = (error: Error) => {
   let errorMessage: string = `${error.name}: ${error.message}`;
-  console.error(errorMessage);
+  if(process.env.NODE_ENV !== 'test') { console.error(errorMessage) };
   return Promise.reject(new Error(errorMessage));
 };
 

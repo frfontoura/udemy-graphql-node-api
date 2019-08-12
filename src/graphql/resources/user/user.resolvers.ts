@@ -42,7 +42,7 @@ export const userResolvers = {
           attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts']})
         })
         .then((user: UserInstance) => {
-          throwError(!user, `User with authUser.id ${id} not found!`);
+          throwError(!user, `User with id ${id} not found!`);
           return user;
         })
         .catch(handleError);
@@ -54,7 +54,7 @@ export const userResolvers = {
           attributes: context.requestedFields.getFields(info, { keep: ['id'], exclude: ['posts']})
         })
         .then((user: UserInstance) => {
-          throwError(!user, `User with authUser.id ${context.authUser.id} not found!`);
+          throwError(!user, `User with id ${context.authUser.id} not found!`);
           return user;
         }).catch(handleError);
     })
@@ -75,7 +75,7 @@ export const userResolvers = {
         return db.User
           .findById(authUser.id)
           .then((user: UserInstance) => {
-            throwError(!user, `User with authUser.id ${authUser.id} not found!`);
+            throwError(!user, `User with id ${authUser.id} not found!`);
             return user.update(input, { transaction: t });
           });
       }).catch(handleError);
@@ -86,7 +86,7 @@ export const userResolvers = {
         return db.User
           .findById(authUser.id)
           .then((user: UserInstance) => {
-            throwError(!user, `User with authUser.id ${authUser.id} not found!`);
+            throwError(!user, `User with id ${authUser.id} not found!`);
             return user.update(input, { transaction: t })
               .then((user: UserInstance) => !!user);
           });
@@ -98,7 +98,7 @@ export const userResolvers = {
         return db.User
           .findById(authUser.id)
           .then((user: UserInstance) => {
-            throwError(!user, `User with authUser.id ${authUser.id} not found!`);
+            throwError(!user, `User with id ${authUser.id} not found!`);
             return user.destroy({ transaction: t })
               .then(user => true)
               .catch(error => false);
