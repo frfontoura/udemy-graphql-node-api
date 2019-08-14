@@ -124,6 +124,70 @@ describe('Post', () => {
 
     });
 
+    describe('application/graphql', () => {
+
+      describe('posts', () => {
+        
+        it('should return a list of Posts', () => {
+          const query = `
+              query {
+                posts {
+                  title
+                  content
+                  photo
+                }
+              }
+            `;
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type', 'application/graphql')
+            .send(query)
+            .then(res => {
+              const postList = res.body.data.posts;
+              expect(res.body.data).to.be.an('object');
+              expect(postList).to.be.an('array');
+              expect(postList[0]).to.not.have.keys(['id', 'createdAt','updatedAt','author', 'comments'])
+              expect(postList[0]).to.have.keys(['title', 'content', 'photo'])
+              expect(postList[0].title).to.equal('First Post');
+            }).catch(handleError);
+        });
+
+        it('should paginate a list of Posts', () => {
+          const query = `
+              query getPostsList($first: Int, $offset: Int) {
+                posts(first: $first, offset: $offset) {
+                  title
+                  content
+                  photo
+                }
+              }
+            `;
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type', 'application/graphql')
+            .send(query)
+            .query({
+              variables: JSON.stringify({
+                first: 2,
+                offset: 1
+              })
+            })
+            .then(res => {
+              const postList = res.body.data.posts;
+              expect(res.body.data).to.be.an('object');
+              expect(postList).to.be.an('array').with.lengthOf(2);
+              expect(postList[0]).to.not.have.keys(['id', 'createdAt','updatedAt','author', 'comments'])
+              expect(postList[0]).to.have.keys(['title', 'content', 'photo'])
+              expect(postList[0].title).to.equal('Second Post');
+            }).catch(handleError);
+        });
+
+      });
+      
+    });
+
   });
 
 
