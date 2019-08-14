@@ -39,7 +39,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
       foreignKey: {
         allowNull: false,
         field: 'post',
-        name: 'fk_comments_post'
+        name: 'post'
       }
     });
     
@@ -47,7 +47,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
       foreignKey: {
         allowNull: false,
         field: 'user',
-        name: 'fk_comments_user'
+        name: 'user'
       }
     });
   };

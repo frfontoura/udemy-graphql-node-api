@@ -45,4 +45,4 @@ if(!db) {
   db["sequelize"] = sequelize;
 }
 
-export default <DbConnection>db;
+export default <DbConnection> db;
