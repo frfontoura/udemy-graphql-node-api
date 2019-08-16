@@ -14,7 +14,7 @@ export const tokenResolvers = {
       }).then((user: UserInstance) => {
         
         if(!user || !user.isPassword(user.get('password'), password)) {
-          throw new Error('Invalid email os password!')
+          throw new Error('Invalid email or password!')
         }
 
         const payload = { sub: user.get('id') };
