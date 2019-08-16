@@ -51,7 +51,7 @@ export const commentResolvers = {
     }),
 
     updateComment: compose(...authResolvers)((parent, { id, input }, { db, authUser }: { db?: DbConnection, authUser?: AuthUser }, info: GraphQLResolveInfo) => {
-      id = parseInt;
+      id = parseInt(id);
       return db.sequelize.transaction((t: Transaction) => {
         return db.Comment.findById(id)
           .then((comment: CommentInstance) => {
@@ -64,7 +64,7 @@ export const commentResolvers = {
     }),
 
     deleteComment: compose(...authResolvers)((parent, { id }, { db, authUser }: { db?: DbConnection, authUser?: AuthUser }, info: GraphQLResolveInfo) => {
-      id = parseInt;
+      id = parseInt(id);
       return db.sequelize.transaction((t: Transaction) => {
         return db.Comment.findById(id)
           .then((comment: CommentInstance) => {
