@@ -83,9 +83,7 @@ describe('Comment', () => {
               }
             `,
             variables: {
-              postId: postId,
-              first: 2,
-              offset: 1
+              postId: postId
             }
           };
 
@@ -97,7 +95,6 @@ describe('Comment', () => {
               const comments = res.body.data.commentsByPost;
               expect(res.body.data).to.be.an('object');
               expect(comments).to.be.an('array');
-              expect(comments).to.have.lengthOf(2);
               expect(comments[0]).to.not.have.keys(['id', 'createdAt','updatedAt'])
               expect(comments[0]).to.have.keys(['comment', 'user', 'post'])
               expect(parseInt(comments[0].user.id)).to.equal(userId);

@@ -195,6 +195,40 @@ describe('User', () => {
 
       });
 
+      describe('currentUser', () => {
+        
+        it('shoud return the User owner of the token', () => {
+          let body = {
+            query: `
+              query {
+                currentUser {
+                  id
+                  name
+                  email
+                }
+              }
+            `
+          };
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type', 'application/json')
+            .set('Authorization', `Bearer ${token}`)
+            .send(JSON.stringify(body))
+            .then(res => {
+              const user = res.body.data.currentUser;
+              expect(res.body.data).to.be.an('object');
+              expect(user).to.be.an('object');
+              expect(user).to.have.keys(['id', 'name', 'email']);
+              expect(parseInt(user.id)).to.equal(userId);
+              expect(user.name).to.equal('Peter Quill');
+              expect(user.email).to.equal('peter@guardians.com');
+            }).catch(handleError);
+
+        });
+
+      });
+
     });
   });
 
@@ -363,6 +397,26 @@ describe('User', () => {
             }).catch(handleError);
 
         });
+
+        it('shoud block operation if token is not provided', () => {
+          let body = {
+            query: `
+              mutation {
+                deleteUser
+              }
+            `
+          };
+
+          return chai.request(app)
+            .post('/graphql')
+            .set('content-type',  'application/json')
+            .send(JSON.stringify(body))
+            .then(res => {
+              expect(res.body.errors[0].message).to.equal('Unauthorized! Token not provided!');
+            }).catch(handleError);
+
+        });
+
       });
 
     });
