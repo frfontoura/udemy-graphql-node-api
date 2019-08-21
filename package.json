@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clusters": "port=8080 node -r dotenv/config dist/cluster",
+    "build": "npm run gulp build",
+    "start": "npm run build && npm run clusters",
     "dev": "node_modules/.bin/nodemon -r dotenv/config --delay 5 dist/index",
     "gulp": "node_modules/.bin/gulp",
     "test": "NODE_ENV=test JWT_SECRET=jwt_test mocha",
